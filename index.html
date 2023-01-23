@@ -89,6 +89,10 @@
         button.innerHTML = "Copiado!";
     }
 
+
+    /*
+    Agrega cada carácter a una nueva cadena de texto, si el caracter es vocal, agrega su cadena de texto correspondiente
+    */
     function codificar(texto) {
         let finalText = "";
 
@@ -118,6 +122,9 @@
         return finalText;
     }
 
+    /*
+    Busca las cadenas de texto que asignamos y las sustituye por su vocal correspondiente
+    */
     function decodificar(texto) {
 
         //Tabla con el contenido que será reemplazado
@@ -140,6 +147,9 @@
         document.querySelector("textarea").value = "";
     }
 
+    /*
+    Cuando accionamos un botón, la interfaz de la pagina tiene que cambiar y mostrar los nuevos resultados, de eso se encarga ese botón.
+    */
     function acomodarBody() {
 
         //Asigamos los elementos del HTML, de la seccion de output text, a una variable.
