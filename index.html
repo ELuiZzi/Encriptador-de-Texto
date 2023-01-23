@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="estilos/reset.css">
+    <link rel="stylesheet" href="estilos/styles.css">
+    <title>Encriptador de Texto</title>
+</head>
+
+<body>
+
+    <header>
+        <h1 class="logo">
+
+            <img src="img/logo.png">
+
+        </h1>
+    </header>
+
+    <main>
+
+        <section class="inputText">
+
+            <textarea placeholder="Ingrese el texto aquí"></textarea>
+
+            <div class="buttons">
+
+                <div class="notificacion">
+
+                    <p class="notificacion-simbolo">!</p>
+
+                    <p class="notificacion-texto">Solo letras minúsculas y sin acentos</p>
+
+                </div>
+
+                <ul>
+                    <li><button class="enButton" onclick="encriptarButton()">Encriptar</button></li>
+                    <li><button class="desButton" onclick="desecriptarButton()">Desencriptar</button></li>
+                </ul>
+            </div>
+
+        </section>
+
+        <section class="outputText" id="outputText">
+
+            <div class="answer" id="answer">
+                <img class="munheco" id="munheco" src="img/muñeco.png">
+                <textarea id="answerH" readonly>Ningún mensaje fue encontrado</textarea>
+                <button id="copiarButton" onclick="copiarTexto()">Copiar</button>
+            </div>
+
+            <div class="emptyDialog" id="emptyDialog">
+                <p>Ingresa el texto que deseas encriptar o desencriptar.</p>
+            </div>
+
+        </section>
+    </main>
+
+
+</body>
+
+</html>
+
+<script>
+
+    function getText() {
+
+        //Primero obtenemos el texto del textarea
+        let texto = document.querySelector("textarea").value;
+
+        //despues lo pasamos a minusculas
+        texto = texto.toLowerCase();
+
+        //Finalmente le quitamos los acentos
+        texto = texto.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+        return texto;
+    }
+
+    function copiarTexto() {
+
+        let textarea = document.getElementById("answerH");
+        let button = document.getElementById("copiarButton");
+        textarea.select();
+        document.execCommand("copy");
+        button.innerHTML = "Copiado!";
+    }
+
+    function codificar(texto) {
+        let finalText = "";
+
+        for (let i = 0; i < texto.length; i++) {
+
+            let caracter = texto.charAt(i);
+
+            if (caracter == "a") {
+                finalText += "ai";
+            }
+            else if (caracter == "e") {
+                finalText += "enter";
+            }
+            else if (caracter == "i") {
+                finalText += "imes";
+            }
+            else if (caracter == "o") {
+                finalText += "ober";
+            }
+            else if (caracter == "u") {
+                finalText += "ufat"
+
+            } else {
+                finalText += caracter;
+            }
+        }
+        return finalText;
+    }
+
+    function decodificar(texto) {
+
+        //Tabla con el contenido que será reemplazado
+        const tablaDeReemplazo = {
+            "ai": "a",
+            "enter": "e",
+            "imes": "i",
+            "ober": "o",
+            "ufat": "u",
+        };
+
+        //Ciclo for, en donde se buscarán todos los contenidos dentro de la cadena de texto
+        for (let e in tablaDeReemplazo) {
+            texto = texto.replace(new RegExp(e, "g"), tablaDeReemplazo[e]);
+        }
+        return texto;
+    }
+
+    function vaciarTextArea() {
+        document.querySelector("textarea").value = "";
+    }
+
+    function acomodarBody() {
+
+        //Asigamos los elementos del HTML, de la seccion de output text, a una variable.
+        let box = document.getElementById("outputText");
+        let emptyBox = document.getElementById("answer");
+        let munheco = document.getElementById("munheco");
+        let p_guia = document.getElementById("emptyDialog");
+        let answer_textarea = document.getElementById("answerH");
+        let copyButton = document.getElementById("copiarButton");
+
+        //Eliminamos los elementos que no utilizamos
+        munheco.style.display = "none";
+        p_guia.style.display = "none";
+
+        //Damos formato a nuestro parrafo final
+        box.style.whiteSpace = "break-spaces";
+
+        emptyBox.style.position = "relative";
+        emptyBox.style.top = "0"
+        emptyBox.style.display = "grid";
+        emptyBox.style.alignItems = "center";
+
+        answer_textarea.style.fontWeight = "100";
+        answer_textarea.style.padding = "10px";
+        answer_textarea.style.height = "490px";
+
+        copyButton.style.display = "initial";
+        copyButton.innerHTML = "Copiar";
+
+        vaciarTextArea();
+    }
+
+    function encriptarButton() {
+
+        let textoEncriptado = codificar(getText());
+        document.getElementById("answerH").innerHTML = textoEncriptado;
+        acomodarBody();
+    }
+
+    function desecriptarButton() {
+
+        let textoEncriptado = decodificar(getText());
+        document.getElementById("answerH").innerHTML = textoEncriptado;
+        acomodarBody();
+
+    }
+
+
+</script>
